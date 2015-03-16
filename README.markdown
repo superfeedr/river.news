@@ -59,17 +59,17 @@ var ReaderBox = React.createClass({
     // And we then render the whole layout.
     return (
       <div className="panel panel-default">
-
         <div className="list-group">
           {newsNodes}
         </div>
-
         <div className="panel-footer">Made by <a href="https://superfeedr.com">Superfeedr</a>, with <a href="https://push.superfeedr.com">Superfeedr</a>.</div>
       </div>
     );
   }
 });
 ```
+
+This is the component for each bit of news. We set default values for the source, because not all feed include them. We also calculate the time since each entry was published and then render the component.
 
 ```javascript
 var NewsBit = React.createClass({
