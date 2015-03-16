@@ -30,6 +30,7 @@ React.render(
 
 The `ReaderBox` contains most of our application. It also performs the call to Superfeedr's API.
 
+```javascript
 var ReaderBox = React.createClass({
   getInitialState: function() {
     return {data: []}; // initialized with empty data
@@ -68,7 +69,6 @@ var ReaderBox = React.createClass({
     );
   }
 });
-
 ```
 
 ```javascript
