@@ -30,7 +30,7 @@ var ReaderBox = React.createClass({displayName: "ReaderBox",
           newsNodes
         ), 
 
-        React.createElement("div", {className: "panel-footer"}, "Made by ", React.createElement("a", {href: "https://superfeedr.com"}, "Superfeedr"), ", with ", React.createElement("a", {href: "https://push.superfeedr.com"}, "Superfeedr"), ".")
+        React.createElement("div", {className: "panel-footer"}, "Made with ", React.createElement("a", {href: "https://push.superfeedr.com"}, "Superfeedr"), ", hosted on ", React.createElement("a", {href: "https://github.com/"}, "Github"), ", with ", React.createElement("a", {href: "https://www.cloudflare.com/"}, "CloudFlare"), ". ", React.createElement("a", {href: "https://github.com/superfeedr/readernews"}, "Source code"), ".")
       )
     );
   }
