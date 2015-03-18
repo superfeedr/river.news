@@ -96,5 +96,9 @@ var NewsBit = React.createClass({
 
 ```
 
+## Building
+
+If you change the `src/*.jsx` files, run `jsx --extension jsx src/ js/`!
+
 
 
