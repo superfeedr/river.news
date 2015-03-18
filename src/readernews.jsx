@@ -30,7 +30,7 @@ var ReaderBox = React.createClass({
           {newsNodes}
         </div>
 
-        <div className="panel-footer">Made by <a href="https://superfeedr.com">Superfeedr</a>, with <a href="https://push.superfeedr.com">Superfeedr</a>.</div>
+        <div className="panel-footer">Made with <a href="https://push.superfeedr.com">Superfeedr</a>, hosted on <a href="https://github.com/">Github</a>, with <a href="https://www.cloudflare.com/">CloudFlare</a>. <a href="https://github.com/superfeedr/readernews">Source code</a>.</div>
       </div>
     );
   }
