@@ -10,13 +10,45 @@ function serialize(object, prefix) {
 }
 
 
-var ReaderBox = React.createClass({displayName: "ReaderBox",
+var River = React.createClass({displayName: "River",
   getInitialState: function() {
+    var login = localStorage.getItem('login');
+    var token = localStorage.getItem('token');
+
+    var showSettings = false;
+    if(!login || login.trim() == "" || !token || token.trim() == '')
+      showSettings = true
+
     return {
+      showSettings: false,
       stories: [],
-      login: 'readersnews',
-      token: '310e761b2fe7004024ba2c73a2d56ac1'
+      login: login,
+      token: token,
     };
+  },
+
+  saveSettings: function(e) {
+    var that = this;
+    e.preventDefault();
+    var login = React.findDOMNode(this.refs.login).value.trim();
+    var token = React.findDOMNode(this.refs.token).value.trim();
+    if (!token || !login) {
+      return;
+    }
+    React.findDOMNode(this.refs.login).value = login;
+    React.findDOMNode(this.refs.token).value = token;
+    
+    localStorage.setItem("login", login);
+    localStorage.setItem("token", token);
+
+    this.setState({
+      stories: [], // Reset as creds were changed...
+      showSettings: false,
+      login: login,
+      token: token
+    }, function() {
+      that.loadContent();
+    });
   },
 
   loadContent: function loadContent() {
@@ -52,20 +84,53 @@ var ReaderBox = React.createClass({displayName: "ReaderBox",
     });
   },
 
+  toggleShowSettings: function() {
+    this.setState({
+      showSettings: !this.state.showSettings
+    });
+  },
 
   componentDidMount: function() {
     this.loadContent();
   },
   
   render: function() {
+
+    var settingsNode = '';
+
+    if(this.state.showSettings) {
+      settingsNode = (
+        React.createElement("form", {className: "panel-body", onSubmit: this.saveSettings}, 
+          React.createElement("div", {className: "form-group"}, 
+            React.createElement("label", {htmlFor: "login"}, "Login"), 
+            React.createElement("input", {type: "text", className: "form-control", ref: "login", placeholder: "Login", defaultValue: this.state.login})
+          ), 
+          React.createElement("div", {className: "form-group"}, 
+            React.createElement("label", {htmlFor: "token"}, "Token"), 
+            React.createElement("input", {type: "text", className: "form-control", ref: "token", placeholder: "Token", defaultValue: this.state.token})
+          ), 
+          React.createElement("button", {type: "submit", className: "btn btn-default pull-right"}, "Save")
+        )
+      );
+    }
+
     var newsNodes = this.state.stories.map(function (story) {
       return (
         React.createElement(NewsBit, {key: story.id, story: story}
         )
       );
     });
+    
     return (
       React.createElement("div", {className: "panel panel-default"}, 
+
+        React.createElement("div", {className: "panel-heading clearfix"}, 
+          React.createElement("button", {type: "button", className: "btn btn-default btn-link pull-right", "aria-label": "Left Align", onClick: this.toggleShowSettings}, 
+            React.createElement("span", {className: "glyphicon glyphicon-wrench", "aria-hidden": "true"})
+          )
+        ), 
+
+        settingsNode, 
 
         React.createElement("div", {className: "list-group"}, 
           newsNodes
@@ -101,6 +166,6 @@ var NewsBit = React.createClass({displayName: "NewsBit",
 
 
 React.render(
-  React.createElement(ReaderBox, null),
+  React.createElement(River, null),
   document.getElementById('content')
 );

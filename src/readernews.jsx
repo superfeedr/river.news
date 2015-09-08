@@ -10,13 +10,45 @@ function serialize(object, prefix) {
 }
 
 
-var ReaderBox = React.createClass({
+var River = React.createClass({
   getInitialState: function() {
+    var login = localStorage.getItem('login');
+    var token = localStorage.getItem('token');
+
+    var showSettings = false;
+    if(!login || login.trim() == "" || !token || token.trim() == '')
+      showSettings = true
+
     return {
+      showSettings: false,
       stories: [],
-      login: 'readersnews',
-      token: '310e761b2fe7004024ba2c73a2d56ac1'
+      login: login,
+      token: token,
     };
+  },
+
+  saveSettings: function(e) {
+    var that = this;
+    e.preventDefault();
+    var login = React.findDOMNode(this.refs.login).value.trim();
+    var token = React.findDOMNode(this.refs.token).value.trim();
+    if (!token || !login) {
+      return;
+    }
+    React.findDOMNode(this.refs.login).value = login;
+    React.findDOMNode(this.refs.token).value = token;
+    
+    localStorage.setItem("login", login);
+    localStorage.setItem("token", token);
+
+    this.setState({
+      stories: [], // Reset as creds were changed...
+      showSettings: false,
+      login: login,
+      token: token
+    }, function() {
+      that.loadContent();
+    });
   },
 
   loadContent: function loadContent() {
@@ -52,20 +84,53 @@ var ReaderBox = React.createClass({
     });
   },
 
+  toggleShowSettings: function() {
+    this.setState({
+      showSettings: !this.state.showSettings
+    });
+  },
 
   componentDidMount: function() {
     this.loadContent();
   },
   
   render: function() {
+
+    var settingsNode = '';
+
+    if(this.state.showSettings) {
+      settingsNode = (
+        <form className="panel-body" onSubmit={this.saveSettings}>
+          <div className="form-group">
+            <label htmlFor="login">Login</label>
+            <input type="text" className="form-control" ref="login" placeholder="Login" defaultValue={this.state.login} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="token">Token</label>
+            <input type="text" className="form-control" ref="token" placeholder="Token"  defaultValue={this.state.token} />
+          </div>
+          <button type="submit" className="btn btn-default pull-right">Save</button>
+        </form>
+      );
+    }
+
     var newsNodes = this.state.stories.map(function (story) {
       return (
         <NewsBit key={story.id} story={story}>
         </NewsBit>
       );
     });
+    
     return (
       <div className="panel panel-default">
+
+        <div className="panel-heading clearfix">
+          <button type="button" className="btn btn-default btn-link pull-right" aria-label="Left Align" onClick={this.toggleShowSettings}>
+            <span className="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        {settingsNode}
 
         <div className="list-group">
           {newsNodes}
@@ -101,6 +166,6 @@ var NewsBit = React.createClass({
 
 
 React.render(
-  <ReaderBox />,
+  <River />,
   document.getElementById('content')
 );
