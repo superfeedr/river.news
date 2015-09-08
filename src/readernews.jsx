@@ -44,7 +44,7 @@ var ReaderBox = React.createClass({
             title: notification.title,
             permalinkUrl: notification.permalinkUrl
           }
-          that.state.stories.unshift(story);
+          that.state.stories.unshift(item);
           that.setState({
             stories: that.state.stories
           });
