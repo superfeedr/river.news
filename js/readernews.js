@@ -1,23 +1,64 @@
+function serialize(object, prefix) {
+  var q = [];
+  for(var k in object) {
+    if (object.hasOwnProperty(k)) {
+      var k = prefix ? prefix + "[" + k + "]" : k, v = object[k];
+      q.push(typeof v == "object" ? serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+    }
+  }
+  return q.join("&");
+}
+
 
 var ReaderBox = React.createClass({displayName: "ReaderBox",
   getInitialState: function() {
-    return {data: []};
+    return {
+      stories: [],
+      login: 'readersnews',
+      token: '310e761b2fe7004024ba2c73a2d56ac1'
+    };
   },
-  componentDidMount: function() {
-    var feed = new $.superfeedr.Endpoint('https://push.superfeedr.com/dev/null');
+
+  loadContent: function loadContent() {
     var that = this;
-    feed.setNumEntries(10);
-    feed.setResultFormat('json');
-    feed.load(function(result) {
-      if (result.error) {
-        console.error(result.error);
-        return ;
-      }
-      that.setState({data: result.feed.items});
+
+    var url = "https://stream.superfeedr.com/";
+    var query = {
+      'count': 5,
+      'hub.mode': 'retrieve',
+      'authorization': btoa([this.state.login, this.state.token].join(':')),
+      'hub.callback': 'https://push.superfeedr.com/dev/null'
+    };
+
+    url = [url, serialize(query)].join('?');
+    var source = new EventSource(url);
+
+    source.addEventListener("notification", function(e) {
+      var notification = JSON.parse(e.data);
+      notification.items.sort(function(x, y) {
+        return x.published - y.published;
+      });
+      notification.items.forEach(function(item) {
+        if(!item.source)
+          item.source = {
+            title: notification.title,
+            permalinkUrl: notification.permalinkUrl
+          }
+          that.state.stories.unshift(story);
+          that.setState({
+            stories: that.state.stories
+          });
+        });
     });
   },
+
+
+  componentDidMount: function() {
+    this.loadContent();
+  },
+  
   render: function() {
-    var newsNodes = this.state.data.map(function (story) {
+    var newsNodes = this.state.stories.map(function (story) {
       return (
         React.createElement(NewsBit, {key: story.id, story: story}
         )
@@ -58,8 +99,6 @@ var NewsBit = React.createClass({displayName: "NewsBit",
   }
 });
 
-$.superfeedr.options.login = 'readersnews';
-$.superfeedr.options.key = '310e761b2fe7004024ba2c73a2d56ac1';
 
 React.render(
   React.createElement(ReaderBox, null),
