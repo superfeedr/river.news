@@ -20,6 +20,8 @@ var River = React.createClass({displayName: "River",
       showSettings = true
 
     return {
+      error: false,
+      loading: false,
       showSettings: false,
       stories: [],
       login: login,
@@ -42,6 +44,7 @@ var River = React.createClass({displayName: "River",
     localStorage.setItem("token", token);
 
     this.setState({
+      error: null,
       stories: [], // Reset as creds were changed...
       showSettings: false,
       login: login,
@@ -53,34 +56,47 @@ var River = React.createClass({displayName: "River",
 
   loadContent: function loadContent() {
     var that = this;
+    this.setState({
+      error: false,
+      loading: true
+    }, function() {
 
-    var url = "https://stream.superfeedr.com/";
-    var query = {
-      'count': 5,
-      'hub.mode': 'retrieve',
-      'authorization': btoa([this.state.login, this.state.token].join(':')),
-      'hub.callback': 'https://push.superfeedr.com/dev/null'
-    };
+      var url = "https://stream.superfeedr.com/";
+      var query = {
+        'count': 5,
+        'hub.mode': 'retrieve',
+        'authorization': btoa([this.state.login, this.state.token].join(':')),
+        'hub.callback': 'https://push.superfeedr.com/dev/null'
+      };
 
-    url = [url, serialize(query)].join('?');
-    var source = new EventSource(url);
+      url = [url, serialize(query)].join('?');
+      var source = new EventSource(url);
 
-    source.addEventListener("notification", function(e) {
-      var notification = JSON.parse(e.data);
-      notification.items.sort(function(x, y) {
-        return x.published - y.published;
-      });
-      notification.items.forEach(function(item) {
-        if(!item.source)
-          item.source = {
-            title: notification.title,
-            permalinkUrl: notification.permalinkUrl
-          }
-          that.state.stories.unshift(item);
-          that.setState({
-            stories: that.state.stories
-          });
+      source.addEventListener("error", function(e) {
+        that.setState({
+          loading: false,
+          error: "There was an error. Please, check your credentials."
         });
+      });
+
+      source.addEventListener("notification", function(e) {
+        var notification = JSON.parse(e.data);
+        notification.items.sort(function(x, y) {
+          return x.published - y.published;
+        });
+        notification.items.forEach(function(item) {
+          if(!item.source)
+            item.source = {
+              title: notification.title,
+              permalinkUrl: notification.permalinkUrl
+            }
+            that.state.stories.unshift(item);
+            that.setState({
+              loading: false,
+              stories: that.state.stories
+            });
+          });
+      });
     });
   },
 
@@ -120,6 +136,17 @@ var River = React.createClass({displayName: "River",
         )
       );
     });
+
+    var loading = '';
+    if(this.state.loading) {
+      loading = (React.createElement("div", {className: "panel-body"}, React.createElement("p", {className: "text-center"}, React.createElement("span", {className: "glyphicon glyphicon-refresh", "aria-hidden": "true"}))))
+    }
+
+    var error = '';
+    if(this.state.error) {
+      loading = (React.createElement("div", {className: "panel-body"}, React.createElement("p", {className: "text-center"}, this.state.error)))
+    }
+
     
     return (
       React.createElement("div", {className: "panel panel-default"}, 
@@ -131,6 +158,8 @@ var River = React.createClass({displayName: "River",
         ), 
 
         settingsNode, 
+
+        loading, 
 
         React.createElement("div", {className: "list-group"}, 
           newsNodes
