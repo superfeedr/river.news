@@ -1,0 +1,30 @@
+{
+  "name": "river.news",
+  "version": "1.0.0",
+  "description": "A JS only feed reader based on https://superfeedr.com",
+  "main": "index.js",
+  "dependencies": {
+    "reactify": "^1.1.1",
+    "browserify": "^11.1.0",
+    "watchify": "3.4.0",
+    "uglifyify": "^3.0.1",
+    "jquery": "2.1.4",
+    "react": "0.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "browserify -e src/river.news.jsx -t reactify -t uglifyify -o site/js/river.news.min.js" ,
+      "watch": "watchify -e src/river.news.jsx -t reactify -t uglifyify -o site/js/river.news.min.js"  
+    },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/superfeedr/river.news"
+  },
+  "author": "superfeedr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/superfeedr/river.news/issues"
+  },
+  "homepage": "https://github.com/superfeedr/river.news"
+}
