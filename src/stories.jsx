@@ -69,12 +69,9 @@ var Stories = React.createClass({
         );
     });
 
-    return (        <div className="list-group">
-
+    return (<div className="list-group">
       {storyNodes}
-      </div>
-)
-
+      </div>);
   }
 });
 

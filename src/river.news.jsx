@@ -1,11 +1,11 @@
 var Stories = require('./stories.jsx');
 var Settings = require('./settings.jsx');
-
+var Subscriptions = require('./subscriptions.jsx');
 
 var River = React.createClass({
   getInitialState: function getInitialState() {
     return {
-      panel: ''
+      panel: 'subscriptions'
     };
   },
 
@@ -23,30 +23,15 @@ var River = React.createClass({
 
     var panel = '';
 
-    if(that.state.panel === 'settings')
+     if(that.state.panel === 'settings')
       panel = (<Settings login={login} token={token} settingsChanged={this.forceUpdate} />);
-    else if(that.state.panel === 'subscription')
-      panel = (<Subscriptions />);
+    else if(that.state.panel === 'subscriptions')
+      panel = (<Subscriptions login={login} token={token} />);
     else
       panel = (<Stories login={login} token={token} />);
 
-    // if(this.state.showSettings) {
-    //   settingsNode = (<Settings />);
-    // }
-
-    // var loading = '';
-    // if(this.state.loading) {
-    //   loading = (<div className="panel-body"><p className="text-center"><span className="glyphicon glyphicon-refresh" aria-hidden="true"></span></p></div>)
-    // }
-
-    // var error = '';
-    // if(this.state.error) {
-    //   loading = (<div className="panel-body"><p className="text-center">{this.state.error}</p></div>)
-    // }
-
-
     var settingsButtonClasses = ["btn", "btn-default", "pull-right"];
-    if(that.state.panel) {
+    if(that.state.panel === 'settings') {
       settingsButtonClasses.push("active")
     }
 
@@ -56,10 +41,23 @@ var River = React.createClass({
       <span className="glyphicon glyphicon-wrench" aria-hidden="true"></span>
     </button>);
 
+
+    var subscriptionsButtonClasses = ["btn", "btn-default", "pull-right"];
+    if(that.state.panel === 'subscriptions') {
+      subscriptionsButtonClasses.push("active")
+    }
+    var subscriptionsButton = (<button type="button" className={subscriptionsButtonClasses.join(' ')} onClick={function() {
+      that.togglePanel(that.state.panel == 'subscriptions' ? '' : 'subscriptions')
+    }}>
+      <span className="glyphicon glyphicon-list" aria-hidden="true"></span>
+    </button>);
+
+
     return (
       <div className="panel panel-default">
 
         <div className="panel-heading clearfix">
+          {subscriptionsButton}
           {settingsButton}
         </div>
         
