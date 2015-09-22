@@ -2,14 +2,20 @@ var Superfeedr = require('./utils/superfeedr.js');
 
 var Settings = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function getInitialState() {
     return {
       loading: false,
       valid: false,
     }
   },
 
-  saveSettings: function(e) {
+  demo: function demo(e) {
+    React.findDOMNode(this.refs.login).value = 'rssriver';
+    React.findDOMNode(this.refs.token).value = '00cf0f60ab7a616f132b702a5c1746a1';
+    this.saveSettings(e);
+  },
+
+  saveSettings: function saveSettings(e) {
     var that = this;
     e.preventDefault();
     var login = React.findDOMNode(this.refs.login).value.trim();
@@ -51,8 +57,7 @@ var Settings = React.createClass({
 
   },
 
-  render: function() {
-
+  render: function render() {
     var button = (<button type="submit" className="btn btn-default pull-right">Save</button>);
     if(this.state.loading) {
       button = (<button type="submit" className="btn btn-default pull-right">
@@ -64,6 +69,9 @@ var Settings = React.createClass({
         <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> Saved
         </button>);
     }
+
+    var demoButton = (<button type="button" className="btn btn-default pull-right btn-link" onClick={this.demo}>Use demo credentials</button>);
+
 
     return (
     <form className="panel-body" onSubmit={this.saveSettings}>
@@ -77,7 +85,7 @@ var Settings = React.createClass({
         <input type="text" className="form-control" ref="token" placeholder="Token"  defaultValue={this.props.token} />
         <p className="help-block">Create an <a href="https://superfeedr.com/tokens/new">API token</a> with the following rights: <var>subscribe</var>, <var>unsubscribe</var>, <var>list</var> and <var>retrieve</var> and enter the token's value above.</p>
       </div>
-      {button}
+      {button}&nbsp;{demoButton}
     </form>);
   }
 });
