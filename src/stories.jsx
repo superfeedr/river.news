@@ -6,6 +6,7 @@ var Stories = React.createClass({
 
   getInitialState: function() {
    return {
+    loading: false,
     stories: [],
    }
   },
@@ -20,10 +21,9 @@ var Stories = React.createClass({
       error: false,
       loading: true
     }, function() {
-
       var url = "https://stream.superfeedr.com/";
       var query = {
-        'count': 5,
+        'count': 100,
         'hub.mode': 'retrieve',
         'authorization': btoa([that.props.login, that.props.token].join(':')),
         'hub.callback': 'https://push.superfeedr.com/dev/null'
@@ -62,6 +62,13 @@ var Stories = React.createClass({
 
 
   render: function() {
+
+    if(this.state.loading) {
+      return (<div className="panel-body">
+        <p className="text-center"><span className="glyphicon glyphicon glyphicon-refresh" disabled="disabled" aria-hidden="true"></span></p>
+      </div>);
+    }
+    else {
     var storyNodes = this.state.stories.map(function (story) {
       return (
         <Story key={story.id} story={story}>
@@ -72,6 +79,9 @@ var Stories = React.createClass({
     return (<div className="list-group">
       {storyNodes}
       </div>);
+
+    }
+
   }
 });
 

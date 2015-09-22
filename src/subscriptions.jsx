@@ -62,7 +62,7 @@ var Subscriptions = React.createClass({
 
     var addSubscription = (<tr>
       <td>
-        <input type="text" className="form-control" ref="feed" placeholder="Feed URL"/>
+        <input type="text" className="form-control input-sm" ref="feed" placeholder="Feed URL"/>
       </td>
       <td>
         <button type="submit" className="btn btn-default btn-sm pull-right">
@@ -74,7 +74,7 @@ var Subscriptions = React.createClass({
     if(that.state.loading) {
       addSubscription = (<tr>
       <td>
-        <input type="text" className="form-control" ref="feed" disabled placeholder="Feed URL"/>
+        <input type="text" className="form-control input-sm" ref="feed" disabled placeholder="Feed URL"/>
       </td>
       <td>
         <button type="submit" className="btn btn-default btn-sm pull-right" disabled>
