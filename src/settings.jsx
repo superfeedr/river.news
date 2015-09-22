@@ -70,10 +70,12 @@ var Settings = React.createClass({
       <div className="form-group">
         <label htmlFor="login">Login</label>
         <input type="text" className="form-control" ref="login" placeholder="Login" defaultValue={this.props.login} />
+        <p className="help-block">Enter your <a href="http://superfeedr.com/subscriber/" target="_blank">Superfeedr subscriber</a> username.</p>
       </div>
       <div className="form-group">
         <label htmlFor="token">Token</label>
         <input type="text" className="form-control" ref="token" placeholder="Token"  defaultValue={this.props.token} />
+        <p className="help-block">Create an <a href="https://superfeedr.com/tokens/new">API token</a> with the following rights: <var>subscribe</var>, <var>unsubscribe</var>, <var>list</var> and <var>retrieve</var> and enter the token's value above.</p>
       </div>
       {button}
     </form>);

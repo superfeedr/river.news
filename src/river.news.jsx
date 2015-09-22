@@ -6,7 +6,7 @@ var River = React.createClass({
   getInitialState: function getInitialState() {
     var login = localStorage.getItem('login');
     var token = localStorage.getItem('token');
-    var panel = '';
+    var panel = 'river';
     if(!login || login == '' || login == null || !token || token == '' || token == null) {
       panel = 'settings'
     }
@@ -56,8 +56,20 @@ var River = React.createClass({
     var subscriptionsButton = (<button type="button" className={subscriptionsButtonClasses.join(' ')} onClick={function() {
       that.togglePanel(that.state.panel == 'subscriptions' ? '' : 'subscriptions')
     }}>
-      <span className="glyphicon glyphicon-list" aria-hidden="true"></span> Subscriptions
+      <span className="glyphicon glyphicon-list" aria-hidden="true"></span> Feeds
     </button>);
+
+    
+    var riverButtonClasses = ["btn", "btn-default"];
+    if(that.state.panel === 'river') {
+      riverButtonClasses.push("active")
+    }
+    var riverButton = (<button type="button" className={riverButtonClasses.join(' ')} onClick={function() {
+      that.togglePanel(that.state.panel == 'river' ? '' : 'river')
+    }}>
+      <span className="glyphicon glyphicon-tint" aria-hidden="true"></span> River
+    </button>);
+
 
 
     return (
@@ -65,8 +77,9 @@ var River = React.createClass({
 
         <div className="panel-heading clearfix">
           <div className="btn-group pull-right">
-            {settingsButton}
+            {riverButton}
             {subscriptionsButton}
+            {settingsButton}
           </div>
         </div>
         
