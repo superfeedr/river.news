@@ -61,11 +61,11 @@ var Subscriptions = React.createClass({
     });
 
     var addSubscription = (<tr>
-      <td>
-        <input type="text" className="form-control input-sm" ref="feed" placeholder="Feed URL"/>
+      <td className="u-table-width-75p">
+        <input type="text" className="form-control input-sm form__input input--text" ref="feed" placeholder="Feed URL"/>
       </td>
-      <td>
-        <button type="submit" className="btn btn-default btn-sm pull-right">
+      <td className="u-table-width-25p">
+        <button type="submit" className="btn btn-default btn-sm pull-right button button--raised button--positive">
           <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
         </button>
       </td>
@@ -74,7 +74,7 @@ var Subscriptions = React.createClass({
     if(that.state.loading) {
       addSubscription = (<tr>
       <td>
-        <input type="text" className="form-control input-sm" ref="feed" disabled placeholder="Feed URL"/>
+        <input type="text" className="form-control input-sm form__input input--text input--disabled" ref="feed" disabled placeholder="Feed URL"/>
       </td>
       <td>
         <button type="submit" className="btn btn-default btn-sm pull-right" disabled>
@@ -135,11 +135,11 @@ var Subscription = React.createClass({
 
     var url = that.props.subscription.subscription.feed.status.feed;
 
-    var button = (<button className="btn btn-sm pull-right btn-danger" onClick={that.removeSubscription}>
+    var button = (<button className="btn btn-sm pull-right btn-danger button button--raised button--negative" onClick={that.removeSubscription}>
       <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
     </button>);
     if(that.state.loading) {
-      button = (<button className="btn btn-sm pull-right btn-danger" disabled>
+      button = (<button className="btn btn-sm pull-right btn-danger button button--raised button--negative" disabled>
         <span className="glyphicon glyphicon-refresh" aria-hidden="true"></span> Remove
       </button>);
     }
@@ -147,10 +147,10 @@ var Subscription = React.createClass({
 
 
     return (<tr className={rowClasses}>
-      <td>
+      <td className="u-table-width-75p">
         <a href={url}>{url}</a>
       </td>
-      <td>
+      <td className="u-table-width-25p">
         {button}
       </td>
       </tr>);

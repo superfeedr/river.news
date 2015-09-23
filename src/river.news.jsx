@@ -37,11 +37,10 @@ var River = React.createClass({
     else
       panel = (<Stories login={login} token={token} />);
 
-    var settingsButtonClasses = ["btn", "btn-default"];
+    var settingsButtonClasses =  ["btn", "btn-default", "button"];
     if(that.state.panel === 'settings') {
       settingsButtonClasses.push("active")
     }
-
     var settingsButton = (<button type="button" aria-label="Settings" className={settingsButtonClasses.join(' ')} onClick={function() {
       that.togglePanel(that.state.panel == 'settings' ? '' : 'settings')
     }}>
@@ -49,7 +48,7 @@ var River = React.createClass({
     </button>);
 
 
-    var subscriptionsButtonClasses = ["btn", "btn-default"];
+    var subscriptionsButtonClasses = ["btn", "btn-default", "button"];
     if(that.state.panel === 'subscriptions') {
       subscriptionsButtonClasses.push("active")
     }
@@ -60,7 +59,7 @@ var River = React.createClass({
     </button>);
 
     
-    var riverButtonClasses = ["btn", "btn-default"];
+    var riverButtonClasses =  ["btn", "btn-default", "button"];
     if(that.state.panel === 'river') {
       riverButtonClasses.push("active")
     }
@@ -73,9 +72,9 @@ var River = React.createClass({
 
 
     return (
-      <div className="panel panel-default">
+      <div className="panel panel-default box">
 
-        <div className="panel-heading clearfix">
+        <div className="panel-heading clearfix box__header box__title">
           <div className="btn-group pull-right">
             {riverButton}
             {subscriptionsButton}
@@ -85,7 +84,7 @@ var River = React.createClass({
         
         {panel}
 
-        <div className="panel-footer">Made with <a href="https://push.superfeedr.com">Superfeedr</a>. <a href="https://github.com/superfeedr/river.news">Source</a>.</div>
+        <div className="panel-footer box__content">Made with <a href="https://push.superfeedr.com">Superfeedr</a>. <a href="https://github.com/superfeedr/river.news">Source</a>.</div>
       </div>
     );
   }

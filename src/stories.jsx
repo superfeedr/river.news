@@ -23,7 +23,7 @@ var Stories = React.createClass({
     }, function() {
       var url = "https://stream.superfeedr.com/";
       var query = {
-        'count': 100,
+        'count': 10,
         'hub.mode': 'retrieve',
         'authorization': btoa([that.props.login, that.props.token].join(':')),
         'hub.callback': 'https://push.superfeedr.com/dev/null'
@@ -76,7 +76,7 @@ var Stories = React.createClass({
         );
     });
 
-    return (<div className="list-group">
+    return (<div className="list-group box__content">
       {storyNodes}
       </div>);
 

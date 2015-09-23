@@ -11,11 +11,16 @@ var Story = React.createClass({
       source.url = this.props.story.source.permalinkUrl;
     }
     var published = new Date(this.props.story.published * 1000).toUTCString();
+    var summary = this.props.story.summary;
+    if(!summary || summary == '') {
+      summary = this.props.story.content;
+    }
     return (
-    <a href={this.props.story.permalinkUrl} target="_blank" className="list-group-item">
-      <h4 className="list-group-item-heading">{this.props.story.title}</h4>
+    <section className="list-group-item">
+      <h4 className="list-group-item-heading"><a href={this.props.story.permalinkUrl} target="_blank" >{this.props.story.title}</a></h4>
       <span className="source"><img src={source.icon} />{source.title}, published {published}</span>
-    </a>
+      <div dangerouslySetInnerHTML={{__html: summary}} />
+    </section>
     );
   }
 });

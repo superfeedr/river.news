@@ -58,34 +58,37 @@ var Settings = React.createClass({
   },
 
   render: function render() {
-    var button = (<button type="submit" className="btn btn-default pull-right">Save</button>);
+    var button = (<button type="submit" className="btn btn-default pull-right button button--raised button--positive">Save</button>);
     if(this.state.loading) {
-      button = (<button type="submit" className="btn btn-default pull-right">
+      button = (<button type="submit" className="btn btn-default pull-right button button--raised button--positive">
         <span className="glyphicon glyphicon glyphicon-refresh" disabled="disabled" aria-hidden="true"></span> Saving
         </button>);
     }
     if(this.state.valid) {
-      button = (<button type="submit" className="btn btn-success pull-right">
+      button = (<button type="submit" className="btn btn-success pull-right button button--raised button--positive">
         <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> Saved
         </button>);
     }
 
-    var demoButton = (<button type="button" className="btn btn-default pull-right btn-link" onClick={this.demo}>Use demo credentials</button>);
+    var demoButton = (<button type="button" className="btn btn-default pull-right btn-link button button--flat button--neutral" onClick={this.demo}>Use demo credentials</button>);
 
 
     return (
-    <form className="panel-body" onSubmit={this.saveSettings}>
+    <form className="panel-body box__content" onSubmit={this.saveSettings}>
       <div className="form-group">
-        <label htmlFor="login">Login</label>
-        <input type="text" className="form-control" ref="login" placeholder="Login" defaultValue={this.props.login} />
+        <label htmlFor="login" className="form__label">Login</label>
+        <input type="text" className="form-control form__input  input--text" ref="login" placeholder="Login" defaultValue={this.props.login} />
         <p className="help-block">Enter your <a href="http://superfeedr.com/subscriber/" target="_blank">Superfeedr subscriber</a> username.</p>
       </div>
       <div className="form-group">
-        <label htmlFor="token">Token</label>
-        <input type="text" className="form-control" ref="token" placeholder="Token"  defaultValue={this.props.token} />
+        <label htmlFor="token" className="form__label">Token</label>
+        <input type="text" className="form-control form__input  input--text" ref="token" placeholder="Token"  defaultValue={this.props.token} />
         <p className="help-block">Create an <a href="https://superfeedr.com/tokens/new">API token</a> with the following rights: <var>subscribe</var>, <var>unsubscribe</var>, <var>list</var> and <var>retrieve</var> and enter the token's value above.</p>
       </div>
-      {button}&nbsp;{demoButton}
+      <div className="form-row form-row--form-actions">
+       {demoButton}
+        {button}
+      </div>
     </form>);
   }
 });
