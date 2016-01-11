@@ -48,7 +48,7 @@ var Story = React.createClass({
       icon: ""
     };
     if(this.props.story.source) {
-      source.title = this.props.story.source.title;      
+      source.title = this.props.story.source.title;
       source.icon = "http://www.google.com/s2/favicons?domain=" + encodeURIComponent(this.props.story.source.permalinkUrl);
       source.url = this.props.story.source.permalinkUrl;
     }
@@ -56,6 +56,9 @@ var Story = React.createClass({
     var summary = this.props.story.summary;
     if(!summary || summary == '') {
       summary = this.props.story.content;
+    }
+    if(!summary) {
+      summary = ""; // still no summary!
     }
 
     var markdownSummary = toMarkdown(summary, toMarkdownOptions);
