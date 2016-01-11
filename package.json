@@ -13,11 +13,13 @@
     "marked": "0.3.5",
     "to-markdown": "1.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sw-precache": "*"
+    },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
       "build": "browserify -e src/river.news.jsx -t reactify -t uglifyify -o site/js/river.news.min.js" ,
-      "watch": "watchify -e src/river.news.jsx -t reactify -o site/js/river.news.min.js"  
+      "watch": "watchify -e src/river.news.jsx -t reactify -o site/js/river.news.min.js"
     },
   "repository": {
     "type": "git",
