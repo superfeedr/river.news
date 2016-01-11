@@ -27,7 +27,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["css/bootstrap.min.css","58a49b3689d699cb72ffda7252d99fcb"],["fonts/glyphicons-halflings-regular.eot","f4769f9bdb7466be65088239c12046d1"],["fonts/glyphicons-halflings-regular.svg","89889688147bd7575d6327160d64e760"],["fonts/glyphicons-halflings-regular.ttf","e18bbf611f2a2e43afc071aa2f4e1512"],["fonts/glyphicons-halflings-regular.woff","fa2772327f55d8198301fdb8bcfc8158"],["fonts/glyphicons-halflings-regular.woff2","448c34a56d699c29117adc64c43affeb"],["index.html","7e7b5f481602e8eb3f25032d80415970"],["js/river.news.min.js","d41d8cd98f00b204e9800998ecf8427e"],["js/service-worker-registration.js","c1ee5aec388e1ed07d6d290693b72547"],["service-worker.js","989b0eccd7bace6b0171293ebc328682"]];
+var PrecacheConfig = [["css/bootstrap.min.css","5d5357cb3704e1f43a1f5bfed2aebf42"],["fonts/glyphicons-halflings-regular.eot","f4769f9bdb7466be65088239c12046d1"],["fonts/glyphicons-halflings-regular.svg","89889688147bd7575d6327160d64e760"],["fonts/glyphicons-halflings-regular.ttf","e18bbf611f2a2e43afc071aa2f4e1512"],["fonts/glyphicons-halflings-regular.woff","fa2772327f55d8198301fdb8bcfc8158"],["fonts/glyphicons-halflings-regular.woff2","448c34a56d699c29117adc64c43affeb"],["index.html","ae3c7326b7cdf10aaf8b22236fffcd26"],["js/libs/jquery.min.js","4c3c09052539ead8719fc45b5d2c2a6a"],["js/libs/react.min.js","c3b6b1bdf51c9ef4ba3473a2e1dcb83a"],["js/river.news.min.js","319085b74b2d23085a13cb3cd58a1424"],["js/service-worker-registration.js","c1ee5aec388e1ed07d6d290693b72547"],["service-worker.js","ac7ed46bebd5f00944e4f8b67a64263e"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1-sw-precache-' + (self.registration ? self.registration.scope : '') + '-';
 
