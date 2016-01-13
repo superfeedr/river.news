@@ -21,41 +21,34 @@ var Stories = React.createClass({
       error: false,
       loading: true
     }, function() {
-      var url = "https://stream.superfeedr.com/";
+      var url = "https://push.superfeedr.com/";
       var query = {
         'count': 10,
+        'format': 'json',
         'hub.mode': 'retrieve',
         'authorization': btoa([that.props.login, that.props.token].join(':')),
         'hub.callback': 'https://push.superfeedr.com/dev/null'
       };
 
       url = [url, serialize(query)].join('?');
-      var source = new EventSource(url);
 
-      source.addEventListener("error", function(e) {
-        that.setState({
-          loading: false,
-          error: "There was an error. Please, check your credentials."
-        });
-      });
-
-      source.addEventListener("notification", function(e) {
-        var notification = JSON.parse(e.data);
+      $.getJSON( url, function(notification) {
         notification.items.sort(function(x, y) {
           return x.published - y.published;
         });
         notification.items.forEach(function(item) {
-          if(!item.source)
+          if(!item.source) {
             item.source = {
               title: notification.title,
               permalinkUrl: notification.permalinkUrl
             }
-            that.state.stories.unshift(item);
-            that.setState({
-              loading: false,
-              stories: that.state.stories
-            });
+          }
+          that.state.stories.unshift(item);
+          that.setState({
+            loading: false,
+            stories: that.state.stories
           });
+        });
       });
     });
   },
