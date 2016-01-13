@@ -18,8 +18,9 @@
     },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "build": "browserify -e src/river.news.jsx -t reactify -t uglifyify -o site/js/river.news.min.js" ,
-      "watch": "watchify -e src/river.news.jsx -t reactify -o site/js/river.news.min.js"
+      "build": "node_modules/browserify/bin/cmd.js -e src/river.news.jsx -t reactify -t uglifyify -o site/js/river.news.min.js" ,
+      "watch": "node_modules/watchify/bin/cmd.js -e src/river.news.jsx -t reactify -o site/js/river.news.min.js",
+      "sw-precache": "node_modules/sw-precache/cli.js --root=site/ --import-scripts=js/request-caching.js"
     },
   "repository": {
     "type": "git",
