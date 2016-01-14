@@ -49,7 +49,7 @@ var Story = React.createClass({
     };
     if(this.props.story.source) {
       source.title = this.props.story.source.title;
-      source.icon = "http://www.google.com/s2/favicons?domain=" + encodeURIComponent(this.props.story.source.permalinkUrl);
+      source.icon = "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(this.props.story.source.permalinkUrl);
       source.url = this.props.story.source.permalinkUrl;
     }
     var published = new Date(this.props.story.published * 1000).toUTCString();
