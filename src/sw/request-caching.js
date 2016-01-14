@@ -17,7 +17,7 @@ function faviconRequest(request) {
   return cacheOrFetch(request);
 }
 
-// For Superfeedr requests
+// For Superfeedr requests.
 // We try both the cache and the network and yield the first result.
 function superfeedrRequest(request) {
   return Promise.race([fetchAndCache(request), cacheOrFetch(request)]);

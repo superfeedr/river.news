@@ -6,7 +6,7 @@
   "dependencies": {
     "reactify": "^1.1.1",
     "browserify": "^11.1.0",
-    "watchify": "3.4.0",
+    "npm-watch": "*",
     "uglifyify": "^3.0.1",
     "jquery": "2.1.4",
     "react": "0.13.3",
@@ -18,10 +18,14 @@
     },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "build": "node_modules/browserify/bin/cmd.js -e src/river.news.jsx -t reactify -t uglifyify -o site/js/river.news.min.js" ,
-      "watch": "node_modules/watchify/bin/cmd.js -e src/river.news.jsx -t reactify -o site/js/river.news.min.js",
-      "sw-precache": "node_modules/sw-precache/cli.js --root=site/ --import-scripts=js/request-caching.js"
-    },
+    "build": "npm run build-react && npm run sw-precache",
+    "build-react": "node_modules/browserify/bin/cmd.js -e src/river.news.jsx -t reactify -t uglifyify -o site/js/river.news.min.js" ,
+    "sw-precache": "cp src/sw/request-caching.js site/js/sw/request-caching.js; cp src/sw/registration.js site/js/sw/registration.js; node_modules/sw-precache/cli.js --root=site/ --import-scripts=js/sw/request-caching.js",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": "src/"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/superfeedr/river.news"
