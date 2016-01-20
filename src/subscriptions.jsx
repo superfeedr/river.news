@@ -9,19 +9,26 @@ var Subscriptions = React.createClass({
     }
   },
 
-  componentDidMount: function componentDidMount() {
+  getSubscriptionList: function getSubscriptionList() {
     var that = this;
     that.setState({
       loading: true,
-      subscriptions: []
     }, function() {
-      Superfeedr.getSubscriptions(this.props.login, this.props.token, function(error, subscriptions) {
+      Superfeedr.getSubscriptions(that.props.login, that.props.token, function(error, subscriptions) {
         that.setState({
           loading: false,
           subscriptions: subscriptions
         });
       });
     });
+  },
+
+  componentWillReceiveProps: function componentWillReceiveProps() {
+    this.getSubscriptionList();
+  },
+
+  componentDidMount: function componentDidMount() {
+    this.getSubscriptionList();
   },
 
   add: function add(e) {
@@ -40,10 +47,9 @@ var Subscriptions = React.createClass({
           return that.setState({
             loading: false,
           }, function() { window.alert(err.message); });
- 
 
         React.findDOMNode(that.refs.feed).value = "";
-        
+
         that.state.subscriptions.push({subscription: {feed: {status: {feed: url}}}});
         that.setState({
           loading: false,
@@ -56,16 +62,29 @@ var Subscriptions = React.createClass({
   render: function render() {
     var that = this;
 
-    var subscrptionNodes = that.state.subscriptions.map(function(s) {
-      return (<Subscription subscription={s} login={that.props.login} token={that.props.token} />);
+    var connectionStatus = '';
+    if(!this.props.connected) {
+      connectionStatus = (<div className="alert alert-danger" role="alert">
+        <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span className="sr-only">Error: </span>
+        You are currently offline. Please come back and change your subscriptions when you are online.
+        </div>);
+    }
+
+    var subscriptionNodes = that.state.subscriptions.map(function(s) {
+      return (<Subscription connected={that.props.connected} subscription={s} login={that.props.login} token={that.props.token} />);
     });
 
+    var disabled = '';
+    if(!this.props.connected) {
+      disabled = 'disabled';
+    }
     var addSubscription = (<tr>
       <td className="u-table-width-75p">
-        <input type="text" className="form-control input-sm form__input input--text" ref="feed" placeholder="Feed URL"/>
+        <input disabled={disabled} type="text" className="form-control input-sm form__input input--text" ref="feed" placeholder="Feed URL"/>
       </td>
       <td className="u-table-width-25p">
-        <button type="submit" className="btn btn-default btn-sm pull-right button button--raised button--positive">
+        <button disabled={disabled} type="submit" className="btn btn-default btn-sm pull-right button button--raised button--positive">
           <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
         </button>
       </td>
@@ -86,14 +105,19 @@ var Subscriptions = React.createClass({
 
 
     return (
-      <form className="table-responsive panel-body" onSubmit={this.add} >
-        <table className="table">
-          <tbody>
-            {subscrptionNodes}
-            {addSubscription}
-          </tbody>
-        </table>
-      </form>
+      <div>
+        <div className="panel-body box__content">
+          {connectionStatus}
+        </div>
+        <form className="table-responsive panel-body" onSubmit={this.add} >
+          <table className="table">
+            <tbody>
+              {subscriptionNodes}
+              {addSubscription}
+            </tbody>
+          </table>
+        </form>
+      </div>
     );
   }
 });
@@ -133,9 +157,14 @@ var Subscription = React.createClass({
       rowClasses += "hidden";
     }
 
+    var disabled = '';
+    if(!that.props.connected) {
+      disabled = 'disabled';
+    }
+
     var url = that.props.subscription.subscription.feed.status.feed;
 
-    var button = (<button className="btn btn-sm pull-right btn-danger button button--raised button--negative" onClick={that.removeSubscription}>
+    var button = (<button className="btn btn-sm pull-right btn-danger button button--raised button--negative" disabled={disabled} onClick={that.removeSubscription}>
       <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
     </button>);
     if(that.state.loading) {

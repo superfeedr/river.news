@@ -1,8 +1,11 @@
 var Stories = require('./stories.jsx');
 var Settings = require('./settings.jsx');
+var SetIntervalMixin = require('./set-interval-mixin.jsx');
 var Subscriptions = require('./subscriptions.jsx');
 
 var River = React.createClass({
+  mixins: [SetIntervalMixin], // Use the mixin
+
   getInitialState: function getInitialState() {
     var login = localStorage.getItem('login');
     var token = localStorage.getItem('token');
@@ -10,10 +13,36 @@ var River = React.createClass({
     if(!login || login == '' || login == null || !token || token == '' || token == null) {
       panel = 'settings'
     }
-
     return {
-      panel: panel
+      panel: panel,
+      connected: false
     };
+  },
+
+  componentDidMount: function componentDidMount() {
+    this.setInterval(this.checkConnection, 1000); // Call a method on the mixin
+  },
+
+  checkConnection: function checkConnection() {
+    var that = this;
+    $.ajax({
+      type: "HEAD",
+      async: true,
+      cache: false,
+      url: '/up.html',
+    }).done(function(message, text, response){
+      if(!that.state.connected) {
+        that.setState({
+          connected: true
+        });
+      }
+    }).fail(function(response, text, error) {
+      if(that.state.connected) {
+        that.setState({
+          connected: false
+        });
+      }
+    });
   },
 
   togglePanel: function togglePanel(panel) {
@@ -21,7 +50,7 @@ var River = React.createClass({
       panel: panel
     });
   },
-  
+
   render: function render() {
     var that = this;
 
@@ -31,9 +60,9 @@ var River = React.createClass({
     var panel = '';
 
     if(that.state.panel === 'settings')
-      panel = (<Settings login={login} token={token} settingsChanged={this.forceUpdate} />);
+      panel = (<Settings connected={this.state.connected} login={login} token={token} settingsChanged={this.forceUpdate} />);
     else if(that.state.panel === 'subscriptions')
-      panel = (<Subscriptions login={login} token={token} />);
+      panel = (<Subscriptions connected={this.state.connected} login={login} token={token} />);
     else
       panel = (<Stories login={login} token={token} />);
 
@@ -58,7 +87,7 @@ var River = React.createClass({
       <span className="glyphicon glyphicon-list" aria-hidden="true"></span> Feeds
     </button>);
 
-    
+
     var riverButtonClasses =  ["btn", "btn-default", "button"];
     if(that.state.panel === 'river') {
       riverButtonClasses.push("active")
@@ -81,7 +110,7 @@ var River = React.createClass({
             {settingsButton}
           </div>
         </div>
-        
+
         {panel}
 
         <div className="panel-footer box__content">Made with <a href="https://push.superfeedr.com">Superfeedr</a>. <a href="https://github.com/superfeedr/river.news">Source</a>.</div>
