@@ -29,7 +29,7 @@ var River = React.createClass({
       type: "HEAD",
       async: true,
       cache: false,
-      url: '/up.html',
+      url: 'https://river.news/up.html',
     }).done(function(message, text, response){
       if(!that.state.connected) {
         that.setState({
