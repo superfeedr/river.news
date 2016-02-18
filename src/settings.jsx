@@ -82,7 +82,7 @@ var Settings = React.createClass({
         </button>);
     }
 
-    var demoButton = (<button disabled={disabled} type="button" className="btn btn-default pull-right btn-link button button--flat button--neutral" onClick={this.demo}>Use demo credentials</button>);
+    var demoButton = (<button disabled={disabled} type="button" className="btn pull-right btn-link button button--flat button--neutral" onClick={this.demo}>Use demo credentials</button>);
 
 
     return (
