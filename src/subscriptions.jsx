@@ -82,10 +82,10 @@ var Subscriptions = React.createClass({
       disabled = 'disabled';
     }
     var addSubscription = (<tr>
-      <td className="u-table-width-75p">
+      <td>
         <input disabled={disabled} type="text" className="form-control input-sm" ref="feed" placeholder="Feed URL"/>
       </td>
-      <td className="u-table-width-25p">
+      <td>
         <button disabled={disabled} type="submit" className="btn btn-primary btn-sm pull-right">
           <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
         </button>
@@ -176,10 +176,10 @@ var Subscription = React.createClass({
 
 
     return (<tr className={rowClasses}>
-      <td className="u-table-width-75p">
+      <td>
         <a href={url}>{url}</a>
       </td>
-      <td className="u-table-width-25p">
+      <td>
         {button}
       </td>
       </tr>);
