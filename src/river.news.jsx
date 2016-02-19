@@ -66,7 +66,7 @@ var River = React.createClass({
     else
       panel = (<Stories login={login} token={token} />);
 
-    var settingsButtonClasses =  ["btn", "btn-default", "button"];
+    var settingsButtonClasses =  ["btn", "btn-default"];
     if(that.state.panel === 'settings') {
       settingsButtonClasses.push("active")
     }
@@ -77,7 +77,7 @@ var River = React.createClass({
     </button>);
 
 
-    var subscriptionsButtonClasses = ["btn", "btn-default", "button"];
+    var subscriptionsButtonClasses = ["btn", "btn-default"];
     if(that.state.panel === 'subscriptions') {
       subscriptionsButtonClasses.push("active")
     }
@@ -88,7 +88,7 @@ var River = React.createClass({
     </button>);
 
 
-    var riverButtonClasses =  ["btn", "btn-default", "button"];
+    var riverButtonClasses =  ["btn", "btn-default"];
     if(that.state.panel === 'river') {
       riverButtonClasses.push("active")
     }

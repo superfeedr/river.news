@@ -69,20 +69,20 @@ var Settings = React.createClass({
       disabled = 'disabled';
     }
 
-    var button = (<button disabled={disabled} type="submit" className="btn btn-default pull-right button button--raised button--positive">Save</button>);
+    var button = (<button disabled={disabled} type="submit" className="btn btn-primary pull-right">Save</button>);
 
     if(this.state.loading) {
-      button = (<button type="submit" className="btn btn-default pull-right button button--raised button--positive">
+      button = (<button type="submit" className="btn btn-primary pull-right">
         <span className="glyphicon glyphicon glyphicon-refresh" disabled="disabled" aria-hidden="true"></span> Saving
         </button>);
     }
     if(this.state.valid) {
-      button = (<button type="submit" className="btn btn-success pull-right button button--raised button--positive">
+      button = (<button type="submit" className="btn btn-success pull-right">
         <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> Saved
         </button>);
     }
 
-    var demoButton = (<button disabled={disabled} type="button" className="btn pull-right btn-link button button--flat button--neutral" onClick={this.demo}>Use demo credentials</button>);
+    var demoButton = (<button disabled={disabled} type="button" className="btn pull-right btn-link" onClick={this.demo}>Use demo credentials</button>);
 
 
     return (

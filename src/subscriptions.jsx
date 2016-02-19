@@ -84,7 +84,7 @@ var Subscriptions = React.createClass({
         <input disabled={disabled} type="text" className="form-control input-sm form__input input--text" ref="feed" placeholder="Feed URL"/>
       </td>
       <td className="u-table-width-25p">
-        <button disabled={disabled} type="submit" className="btn btn-default btn-sm pull-right button button--raised button--positive">
+        <button disabled={disabled} type="submit" className="btn btn-primary btn-sm pull-right">
           <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
         </button>
       </td>
@@ -164,11 +164,11 @@ var Subscription = React.createClass({
 
     var url = that.props.subscription.subscription.feed.status.feed;
 
-    var button = (<button className="btn btn-sm pull-right btn-danger button button--raised button--negative" disabled={disabled} onClick={that.removeSubscription}>
+    var button = (<button className="btn btn-sm pull-right btn-danger" disabled={disabled} onClick={that.removeSubscription}>
       <span className="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
     </button>);
     if(that.state.loading) {
-      button = (<button className="btn btn-sm pull-right btn-danger button button--raised button--negative" disabled>
+      button = (<button className="btn btn-sm pull-right btn-danger" disabled>
         <span className="glyphicon glyphicon-refresh" aria-hidden="true"></span> Remove
       </button>);
     }
