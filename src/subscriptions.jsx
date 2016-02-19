@@ -64,10 +64,12 @@ var Subscriptions = React.createClass({
 
     var connectionStatus = '';
     if(!this.props.connected) {
-      connectionStatus = (<div className="alert alert-danger" role="alert">
-        <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        <span className="sr-only">Error: </span>
-        You are currently offline. Please come back and change your subscriptions when you are online.
+      connectionStatus = (<div className="panel-body">
+          <div className="alert alert-danger" role="alert">
+            <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span className="sr-only">Error: </span>
+            You are currently offline. Please come back and change your subscriptions when you are online.
+          </div>
         </div>);
     }
 
@@ -106,9 +108,7 @@ var Subscriptions = React.createClass({
 
     return (
       <div>
-        <div className="panel-body">
-          {connectionStatus}
-        </div>
+        {connectionStatus}
         <form className="table-responsive panel-body" onSubmit={this.add} >
           <table className="table">
             <tbody>
