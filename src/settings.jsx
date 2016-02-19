@@ -86,7 +86,7 @@ var Settings = React.createClass({
 
 
     return (
-    <form className="panel-body box__content" onSubmit={this.saveSettings}>
+    <form className="panel-body" onSubmit={this.saveSettings}>
       {connectionStatus}
       <div className="form-group">
         <label htmlFor="login" className="form__label">Login</label>

@@ -106,7 +106,7 @@ var Subscriptions = React.createClass({
 
     return (
       <div>
-        <div className="panel-body box__content">
+        <div className="panel-body">
           {connectionStatus}
         </div>
         <form className="table-responsive panel-body" onSubmit={this.add} >

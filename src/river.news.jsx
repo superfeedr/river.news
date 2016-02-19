@@ -101,9 +101,9 @@ var River = React.createClass({
 
 
     return (
-      <div className="panel panel-default box">
+      <div className="panel panel-default">
 
-        <div className="panel-heading clearfix box__header box__title">
+        <div className="panel-heading clearfix">
           <div className="btn-group pull-right">
             {riverButton}
             {subscriptionsButton}
@@ -113,7 +113,7 @@ var River = React.createClass({
 
         {panel}
 
-        <div className="panel-footer box__content">Made with <a href="https://push.superfeedr.com">Superfeedr</a>. <a href="https://github.com/superfeedr/river.news">Source</a>.</div>
+        <div className="panel-footer">Made with <a href="https://push.superfeedr.com">Superfeedr</a>. <a href="https://github.com/superfeedr/river.news">Source</a>.</div>
       </div>
     );
   }
