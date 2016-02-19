@@ -83,7 +83,7 @@ var Subscriptions = React.createClass({
     }
     var addSubscription = (<tr>
       <td className="u-table-width-75p">
-        <input disabled={disabled} type="text" className="form-control input-sm form__input input--text" ref="feed" placeholder="Feed URL"/>
+        <input disabled={disabled} type="text" className="form-control input-sm" ref="feed" placeholder="Feed URL"/>
       </td>
       <td className="u-table-width-25p">
         <button disabled={disabled} type="submit" className="btn btn-primary btn-sm pull-right">
@@ -95,7 +95,7 @@ var Subscriptions = React.createClass({
     if(that.state.loading) {
       addSubscription = (<tr>
       <td>
-        <input type="text" className="form-control input-sm form__input input--text input--disabled" ref="feed" disabled placeholder="Feed URL"/>
+        <input type="text" className="form-control input-sm" ref="feed" disabled placeholder="Feed URL"/>
       </td>
       <td>
         <button type="submit" className="btn btn-default btn-sm pull-right" disabled>

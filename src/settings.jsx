@@ -90,12 +90,12 @@ var Settings = React.createClass({
       {connectionStatus}
       <div className="form-group">
         <label htmlFor="login" className="form__label">Login</label>
-        <input disabled={disabled} type="text" className="form-control form__input  input--text" ref="login" placeholder="Login" defaultValue={this.props.login} />
+        <input disabled={disabled} type="text" className="form-control" ref="login" placeholder="Login" defaultValue={this.props.login} />
         <p className="help-block">Enter your <a href="http://superfeedr.com/subscriber/" target="_blank">Superfeedr subscriber</a> username.</p>
       </div>
       <div className="form-group">
         <label htmlFor="token" className="form__label">Token</label>
-        <input disabled={disabled} type="text" className="form-control form__input  input--text" ref="token" placeholder="Token"  defaultValue={this.props.token} />
+        <input disabled={disabled} type="text" className="form-control" ref="token" placeholder="Token"  defaultValue={this.props.token} />
         <p className="help-block">Create an <a href="https://superfeedr.com/tokens/new">API token</a> with the following rights: <var>subscribe</var>, <var>unsubscribe</var>, <var>list</var> and <var>retrieve</var> and enter the token's value above.</p>
       </div>
       <div className="form-row form-row--form-actions">
