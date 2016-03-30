@@ -21,7 +21,7 @@ Since this is a completely static application executed in the browser, river.new
 The only required markup is:
 
 ```html
-<div id="content"></div>
+<div id="river-news"></div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
