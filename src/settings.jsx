@@ -1,13 +1,4 @@
-var Superfeedr = require('./utils/superfeedr.js');
-
 var Settings = React.createClass({
-
-  getInitialState: function getInitialState() {
-    return {
-      loading: false,
-      valid: false,
-    }
-  },
 
   demo: function demo(e) {
     React.findDOMNode(this.refs.login).value = 'rssriver';
@@ -26,35 +17,7 @@ var Settings = React.createClass({
     React.findDOMNode(this.refs.login).value = login;
     React.findDOMNode(this.refs.token).value = token;
 
-
-    that.setState({
-      valid: false,
-      loading: true
-    }, function() {
-      Superfeedr.checkCredentials(login, token, function(error, valid) {
-        if(error || !valid) {
-          that.setState({
-            loading: false
-          }, function() {
-            if(error.status == '401' || error.status == '403')
-              alert('Your credentials are not valid. Please, try again.');
-            else
-              alert('We could not check your credentials. Please try again later.');
-          });
-        }
-        else {
-          that.setState({
-            loading: false,
-            valid: true
-          }, function() {
-            localStorage.setItem("login", login);
-            localStorage.setItem("token", token);
-            that.props.settingsChanged();
-          });
-        }
-      });
-    });
-
+    that.props.saveSettings(login, token);
   },
 
   render: function render() {
@@ -71,12 +34,12 @@ var Settings = React.createClass({
 
     var button = (<button disabled={disabled} type="submit" className="btn btn-default pull-right button button--raised button--positive">Save</button>);
 
-    if(this.state.loading) {
+    if(this.props.loading) {
       button = (<button type="submit" className="btn btn-default pull-right button button--raised button--positive">
         <span className="glyphicon glyphicon glyphicon-refresh" disabled="disabled" aria-hidden="true"></span> Saving
         </button>);
     }
-    if(this.state.valid) {
+    if(this.props.valid) {
       button = (<button type="submit" className="btn btn-success pull-right button button--raised button--positive">
         <span className="glyphicon glyphicon-ok" aria-hidden="true"></span> Saved
         </button>);

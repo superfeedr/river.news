@@ -4,7 +4,7 @@
 
 ## Use it as a reader
 
-[River.news](http://river.news/) can be used as a single person feed reader. 
+[River.news](http://river.news/) can be used as a single person feed reader.
 
 1. Open a [Superfeedr subscriber account](https://superfeedr.com/subscriber/). You get 10,000 free monthly notifications/stories.
 2. [Create an API token](https://superfeedr.com/tokens/new)
@@ -25,7 +25,7 @@ The only required markup is:
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
-<script src="http://river.news/js/river.news.min.js"></script>
+<script src="https://river.news/js/river.news.min.js"></script>
 ```
 
 The first line is the *div* which will hold the river. The other lines are
@@ -34,7 +34,7 @@ The first line is the *div* which will hold the river. The other lines are
 * react (don't add this line if your application already loads it)
 * the actual `river.news.min.js` file with the *whole* application code
 
-The final step is to add styling. 
+The final step is to add styling.
 
 River.news uses [Bootstrap](http://getbootstrap.com/) by default. You can add load the CSS for bootstrap by addin the following in the `<head>` section of your HTML page.
 
@@ -42,9 +42,18 @@ River.news uses [Bootstrap](http://getbootstrap.com/) by default. You can add lo
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 ```
 
-However, if you're already using a bootstrap theme of want to [create your own](http://getbootstrap.com/customize/), things should work similarly well! 
+However, if you're already using a bootstrap theme or want to [create your own](http://getbootstrap.com/customize/), things should work similarly well!
 
-## Fork it
+### Customization
+
+You can also hard-code the settings so that each visitor does not have to create a Superfeedr account.
+Use the following data-attributes on the `#content` element:
+* `data-superfeedr-login="mylogin"` : always use `mylogin` for thr superfeedr login (you should probably use `data-disable-settings` too)
+* `data-superfeedr-token="mytoken"` : always use `mytoken` for thr superfeedr token (you should probably use `data-disable-settings` too)
+* `data-disable-settings` : disable the settings tab. The login and token should be hardcoded (see above)
+* `data-disable-subscriptions` : disable the subscriptions tab. Visitors won't be able to change the subscription list. (you cqn then use a token which does not have the `subscribe`, `unsubscribe` and `list` rights)
+
+##  ork it
 
 Most importantly, this code is open source and we welcome contributions! Feel free to fork, commit and send pull requests for bug fixes, improvements and more!
 
@@ -54,12 +63,9 @@ When developing, run `npm run watch` to automatically rebuild the `river.news.mi
 
 ### TODO:
 
-* Add support for WebWorkers for a completely offline experience
 * Dynamic 'load' icon... Bootstrap, do you have this?
-* Add support for multi-subscribers (single Superfeedr account, multiple subscribers)
 * Handle buggy feeds
 * Improve urls using fragments: `#settings`, '#subscriptions', '#river'
 * OPML import
 * Pagination to go fetch 'older' stories
-* Add *https* for `http://river.news/js/river.news.min.js`
 * Improve responsiveness

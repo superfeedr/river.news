@@ -1,3 +1,4 @@
+var Superfeedr = require('./utils/superfeedr.js');
 var Stories = require('./stories.jsx');
 var Settings = require('./settings.jsx');
 var SetIntervalMixin = require('./set-interval-mixin.jsx');
@@ -7,20 +8,41 @@ var River = React.createClass({
   mixins: [SetIntervalMixin], // Use the mixin
 
   getInitialState: function getInitialState() {
-    var login = localStorage.getItem('login');
-    var token = localStorage.getItem('token');
+    var params = document.getElementById('content').dataset;
+
+    var login = localStorage.getItem('superfeedrLogin');
+    var token = localStorage.getItem('superfeedrToken');
+
+    if(params['superfeedrLogin'])
+      login = params['superfeedrLogin']
+
+    if(params['superfeedrToken'])
+      token = params['superfeedrToken']
+
+    var disableSettings = typeof params['disableSettings'] !== 'undefined'; // Let's the visitor change the settings
+    var disableSubscriptions = typeof params['disableSubscriptions'] !== 'undefined'; // Let's the visitor change the subscriptions
+
     var panel = 'river';
-    if(!login || login == '' || login == null || !token || token == '' || token == null) {
+    if(!login || !token) {
       panel = 'settings'
     }
     return {
+      login: login,
+      token: token,
+      disableSettings: disableSettings,
+      disableSubscriptions: disableSubscriptions,
       panel: panel,
-      connected: false
+      connected: true,
+      loading: false,
+      valid: false,
     };
   },
 
   componentDidMount: function componentDidMount() {
+    var that = this;
     this.setInterval(this.checkConnection, 1000); // Call a method on the mixin
+    if(this.state.login || this.state.token)
+      this.checkCredentials(this.state.login, this.state.token, function(valid) {})
   },
 
   checkConnection: function checkConnection() {
@@ -51,54 +73,94 @@ var River = React.createClass({
     });
   },
 
-  render: function render() {
+  checkCredentials: function checkCredentials(login, token, cb) {
+    Superfeedr.checkCredentials(login, token, function(error, valid) {
+      if(error || !valid) {
+        if(error.status == '401' || error.status == '403')
+          alert('Your credentials are not valid. Please, try again.');
+        else
+          alert('We could not check your credentials. Please try again later.');
+      }
+      return cb(!error && valid)
+    });
+  },
+
+  saveSettings: function saveSettings(login, token, done) {
     var that = this;
 
-    var login = localStorage.getItem('login');
-    var token = localStorage.getItem('token');
+    that.setState({
+      loading: true,
+    }, function() {
+      that.checkCredentials(login, token, function(valid) {
+        if(valid) {
+          localStorage.setItem('superfeedrLogin', login);
+          localStorage.setItem('superfeedrToken', token);
+        }
+
+        that.setState({
+          valid: valid,
+          loading: false,
+          login: login,
+          token: token
+        });
+      });
+    });
+  },
+
+  render: function render() {
+    var that = this;
 
     var panel = '';
 
     if(that.state.panel === 'settings')
-      panel = (<Settings connected={this.state.connected} login={login} token={token} settingsChanged={this.forceUpdate} />);
+      panel = (<Settings connected={this.state.connected} login={this.state.login} token={this.state.token} saveSettings={this.saveSettings} loading={this.state.loading} valid={this.state.valid} />);
     else if(that.state.panel === 'subscriptions')
-      panel = (<Subscriptions connected={this.state.connected} login={login} token={token} />);
+      panel = (<Subscriptions connected={this.state.connected} login={this.state.login} token={this.state.token} />);
     else
-      panel = (<Stories login={login} token={token} />);
+      panel = (<Stories login={this.state.login} token={this.state.token} />);
 
-    var settingsButtonClasses =  ["btn", "btn-default", "button"];
-    if(that.state.panel === 'settings') {
-      settingsButtonClasses.push("active")
-    }
-    var settingsButton = (<button type="button" aria-label="Settings" className={settingsButtonClasses.join(' ')} onClick={function() {
-      that.togglePanel(that.state.panel == 'settings' ? '' : 'settings')
-    }}>
+
+    // Settings button
+    var settingsButton = ''
+    if(!this.state.disableSettings) {
+      var settingsButtonClasses =  ["btn", "btn-default", "button"];
+      if(that.state.panel === 'settings') {
+        settingsButtonClasses.push("active")
+      }
+      var settingsButton = (<button type="button" aria-label="Settings" className={settingsButtonClasses.join(' ')} onClick={function() {
+        that.togglePanel(that.state.panel == 'settings' ? '' : 'settings')
+      }}>
       <span className="glyphicon glyphicon-wrench" aria-hidden="true"></span> Settings
-    </button>);
-
-
-    var subscriptionsButtonClasses = ["btn", "btn-default", "button"];
-    if(that.state.panel === 'subscriptions') {
-      subscriptionsButtonClasses.push("active")
+      </button>);
     }
-    var subscriptionsButton = (<button type="button" className={subscriptionsButtonClasses.join(' ')} onClick={function() {
-      that.togglePanel(that.state.panel == 'subscriptions' ? '' : 'subscriptions')
-    }}>
+
+    // Subscription button
+    var subscriptionsButton = ''
+    if(!this.state.disableSubscriptions) {
+      var subscriptionsButtonClasses = ["btn", "btn-default", "button"];
+      if(that.state.panel === 'subscriptions') {
+        subscriptionsButtonClasses.push("active")
+      }
+      subscriptionsButton = (<button type="button" className={subscriptionsButtonClasses.join(' ')} onClick={function() {
+        that.togglePanel(that.state.panel == 'subscriptions' ? '' : 'subscriptions')
+      }}>
       <span className="glyphicon glyphicon-list" aria-hidden="true"></span> Feeds
-    </button>);
-
-
-    var riverButtonClasses =  ["btn", "btn-default", "button"];
-    if(that.state.panel === 'river') {
-      riverButtonClasses.push("active")
+      </button>);
     }
-    var riverButton = (<button type="button" className={riverButtonClasses.join(' ')} onClick={function() {
-      that.togglePanel(that.state.panel == 'river' ? '' : 'river')
-    }}>
+
+    // River button
+    var riverButton = ''
+    if(!(this.state.disableSubscriptions && this.state.disableSettings)) {
+      var riverButtonClasses =  ["btn", "btn-default", "button"];
+      if(that.state.panel === 'river') {
+        riverButtonClasses.push("active")
+      }
+      riverButton = (<button type="button" className={riverButtonClasses.join(' ')} onClick={function() {
+        that.togglePanel(that.state.panel == 'river' ? '' : 'river')
+      }}>
       <span className="glyphicon glyphicon-tint" aria-hidden="true"></span> River
-    </button>);
-
-
+      </button>);
+    }
 
     return (
       <div className="panel panel-default box">
