@@ -8,7 +8,7 @@ var River = React.createClass({
   mixins: [SetIntervalMixin], // Use the mixin
 
   getInitialState: function getInitialState() {
-    var params = document.getElementById('river-news').dataset;
+    var params = document.getElementById('content').dataset;
 
     var login = localStorage.getItem('superfeedrLogin');
     var token = localStorage.getItem('superfeedrToken');
@@ -184,5 +184,5 @@ var River = React.createClass({
 
 React.render(
   <River />,
-  document.getElementById('river-news')
+  document.getElementById('content')
 );
